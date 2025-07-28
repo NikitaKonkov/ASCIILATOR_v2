@@ -46,7 +46,7 @@ unsigned int cmd_buffer_height;
         // Check if the console buffer size matches the desired dimensions if console is resized
         if (cmd_buffer_width != save_console_width || cmd_buffer_height != save_console_height) {
             // Clear the console using ANSI escape codes
-            printf("\033[H\033[J"); // Move cursor to top-left and clear the screen
+            system("clear");
         }
 
         // Save current console size, to avoid infinite scrolling
