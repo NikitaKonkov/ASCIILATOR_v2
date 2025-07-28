@@ -1,1 +1,1 @@
-gcc -o engine.exe engine.c
+gcc -o engine.exe engine.c console_init.c
