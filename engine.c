@@ -75,7 +75,7 @@ int is_key_pressed() {
 // Main engine loop
 int main(int argc, char const *argv[])
 {   
-
+    clear_screen(); // Clear the terminal screen at the start
     unsigned long lastTime = get_current_time_ms();
     int frameCount = 0;
     float fps = 0.0f;
