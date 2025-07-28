@@ -32,6 +32,7 @@ unsigned int cmd_buffer_height;
     #include <sys/ioctl.h> // For ioctl and winsize
     #include <unistd.h>    // For STDOUT_FILENO
     #include <stdio.h>     // For printf
+    #include <stdlib.h>    // For system
     void linux_console_init() {
         struct winsize w;
         if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == -1) {
