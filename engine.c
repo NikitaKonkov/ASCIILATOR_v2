@@ -14,6 +14,18 @@
 #endif
 #include <stdio.h>
 
+
+
+// Cross-platform function to get the current time in milliseconds
+unsigned long clear_screen() {
+#ifdef _WIN32                                              
+    system("cls"); // Clear the terminal screen on Windows
+    return 0;                     
+#else
+    system("clear"); // Clear the terminal screen
+    return 0;
+#endif
+}  
 // Cross-platform function to get the current time in milliseconds
 unsigned long get_current_time_ms() {
 #ifdef _WIN32                                              
@@ -56,10 +68,13 @@ int is_key_pressed() {
 #endif
 }
 
+
+
+
 // Main engine loop
 int main(int argc, char const *argv[])
-{
-    system("clear || cls"); // Clear the terminal screen
+{   
+
     unsigned long lastTime = get_current_time_ms();
     int frameCount = 0;
     float fps = 0.0f;
