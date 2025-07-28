@@ -106,6 +106,8 @@ int main(int argc, char const *argv[])
 
             // Corner markers for the console buffer
         printf("\x1B[31m\x1b[0H#\x1b[0;%dH#\x1b[%d;%dH#\x1b[%d;0H#", cmd_buffer_width, cmd_buffer_height, cmd_buffer_width, cmd_buffer_height);
+        printf("\x1B[31m\x1B[4H%dx%d", cmd_buffer_width, cmd_buffer_height);
+        
         system("clear");
     }
     return 0;
