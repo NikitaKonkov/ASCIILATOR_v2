@@ -76,7 +76,7 @@ int is_key_pressed() {
 int main(int argc, char const *argv[])
 {   
     clear_screen(); // Clear the terminal screen at the start
-    launch(); // Initialize console settings
+
     unsigned long lastTime = get_current_time_ms();
     int frameCount = 0;
     float fps = 0.0f;
@@ -86,6 +86,7 @@ int main(int argc, char const *argv[])
 
     while (1)
     {
+        launch(); // Initialize console settings
         unsigned long currentTime = get_current_time_ms();
         frameCount++;
 
@@ -108,7 +109,7 @@ int main(int argc, char const *argv[])
         printf("\x1B[31m\x1b[0H#\x1b[0;%dH#\x1b[%d;%dH#\x1b[%d;0H#", cmd_buffer_width, cmd_buffer_height, cmd_buffer_width, cmd_buffer_height);
         printf("\x1B[31m\x1B[4H%dx%d", cmd_buffer_width, cmd_buffer_height);
         
-        system("clear");
+    
     }
     return 0;
 }
