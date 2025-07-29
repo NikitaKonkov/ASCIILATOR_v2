@@ -9,6 +9,6 @@ extern unsigned int save_console_height;
 extern unsigned int cmd_buffer_width; 
 extern unsigned int cmd_buffer_height;
 
-void launch();
+void console_init();
 
 #endif // CONSOLE_INIT_H

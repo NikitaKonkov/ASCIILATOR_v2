@@ -1,4 +1,12 @@
 #include "console_init.h"
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <sys/ioctl.h> // For ioctl and winsize
+    #include <unistd.h>    // For STDOUT_FILENO
+    #include <stdio.h>     // For printf
+    #include <stdlib.h>    // For system
+#endif
 
 // Saves current console size to avoid infinite scrolling
 unsigned int save_console_width = 0;
@@ -9,7 +17,6 @@ unsigned int cmd_buffer_width;
 unsigned int cmd_buffer_height;
 
 #ifdef _WIN32
-    #include <windows.h>
     void win_console_init() {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -29,10 +36,6 @@ unsigned int cmd_buffer_height;
         save_console_height = cmd_buffer_height;
     }
 #else
-    #include <sys/ioctl.h> // For ioctl and winsize
-    #include <unistd.h>    // For STDOUT_FILENO
-    #include <stdio.h>     // For printf
-    #include <stdlib.h>    // For system
     void linux_console_init() {
         struct winsize w;
         if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == -1) {
@@ -61,7 +64,7 @@ unsigned int cmd_buffer_height;
 
 
 
-void launch() {
+void console_init() {
 #ifdef _WIN32
     win_console_init();
 #else

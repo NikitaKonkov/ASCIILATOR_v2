@@ -45,25 +45,29 @@ int is_key_pressed() {
 #else
     struct termios oldt, newt;
     int ch;
-    int oldf;
 
     // Get the terminal settings for stdin
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
     newt.c_lflag &= ~(ICANON | ECHO); // Disable canonical mode and echo
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-    oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
 
-    ch = getchar();
+    // Use select() to check if input is available
+    struct timeval tv = {0, 0}; // No timeout
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(STDIN_FILENO, &readfds);
+
+    if (select(STDIN_FILENO + 1, &readfds, NULL, NULL, &tv) > 0) {
+        ch = getchar();
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+        if (ch != EOF) {
+            ungetc(ch, stdin);
+            return ch == 27; // ASCII code for Escape key
+        }
+    }
 
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-    fcntl(STDIN_FILENO, F_SETFL, oldf);
-
-    if (ch != EOF) {
-        ungetc(ch, stdin);
-        return ch == 27; // ASCII code for Escape key
-    }
     printf("\x1b[3H\x1b[31mLINUX RUN");
     return 0;
 #endif
@@ -86,7 +90,7 @@ int main(int argc, char const *argv[])
 
     while (1)
     {
-        launch(); // Initialize console settings
+        console_init(); // Initialize console settings
         unsigned long currentTime = get_current_time_ms();
         frameCount++;
 
